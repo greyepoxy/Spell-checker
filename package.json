@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "An attempt at making a spellchecker's brain",
   "main": "lib/src/index.js",
+  "private": true,
   "scripts": {
     "build": "npm install && npm run :compile",
     "test": "ava",
