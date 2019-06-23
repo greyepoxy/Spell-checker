@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "lib": ["es6"],
+        "target": "es6",
+        "composite": true,
+        "module": "commonjs",
+        "declaration": true
+    }
+}
