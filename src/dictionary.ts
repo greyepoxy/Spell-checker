@@ -20,9 +20,9 @@ export class Dictionary {
       );
   }
 
-  public isWordPresent(word: string): boolean {
+  public tryGetMatchingWord(word: string): string | null {
     const maybeWordInDictionary = this.words[word];
 
-    return maybeWordInDictionary !== undefined;
+    return maybeWordInDictionary !== undefined ? maybeWordInDictionary : null;
   }
 }

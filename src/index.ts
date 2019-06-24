@@ -8,7 +8,7 @@ export function checkWord(
 ): string {
   const dictionary = Dictionary.getInstance(wordsToCheckAgainst);
 
-  if (dictionary.isWordPresent(wordToCheck)) {
+  if (dictionary.tryGetMatchingWord(wordToCheck) !== null) {
     return wordToCheck;
   }
 
