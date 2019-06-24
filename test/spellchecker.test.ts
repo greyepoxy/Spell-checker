@@ -8,3 +8,8 @@ test('should report no correction for un-recognized words', t => {
 test('should return original word if matching word found', t => {
   t.deepEqual(checkWord('table', ['table']), 'table');
 });
+
+test('should return matching word with fixed casing', t => {
+  t.deepEqual(checkWord('england', ['England']), 'England');
+  t.deepEqual(checkWord('enGLaNd', ['England']), 'England');
+});

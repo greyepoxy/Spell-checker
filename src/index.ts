@@ -8,8 +8,9 @@ export function checkWord(
 ): string {
   const dictionary = Dictionary.getInstance(wordsToCheckAgainst);
 
-  if (dictionary.tryGetMatchingWord(wordToCheck) !== null) {
-    return wordToCheck;
+  const matchingWord = dictionary.tryGetMatchingWord(wordToCheck.toLowerCase());
+  if (matchingWord !== null) {
+    return matchingWord;
   }
 
   return 'No Correction Found';
