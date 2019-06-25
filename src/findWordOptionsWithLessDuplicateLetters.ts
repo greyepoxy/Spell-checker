@@ -1,4 +1,8 @@
-import { concatArrays, createSequence } from './languageExtensions';
+import {
+  concatArrays,
+  createSequence,
+  spliceString,
+} from './languageExtensions';
 
 export function findWordOptionsWithLessDuplicateLetters(
   lowerCaseWordToCheck: string,
@@ -54,19 +58,6 @@ export function findWordOptionsWithLessDuplicateLetters(
   }
 
   return wordOptionsToCheck;
-}
-
-function spliceString(
-  stringToSplice: string,
-  startIndex: number,
-  deleteCount: number
-): string {
-  const charactersInFrontOfStartIndex = stringToSplice.slice(0, startIndex);
-  const charactersAfterDeletedCharacters = stringToSplice.slice(
-    startIndex + deleteCount
-  );
-
-  return charactersInFrontOfStartIndex + charactersAfterDeletedCharacters;
 }
 
 function currentIndexOrLastIndexOfMatchingLetters(
