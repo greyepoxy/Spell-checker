@@ -47,6 +47,7 @@ function getAdditionalWordOptionsWithLessDuplicateLettersToCheck(
 ): string[] {
   return createSequence(originalCountOfDuplicateLetters - 1)
     .map(count => count + 1)
+    .reverse()
     .map(newNumberOfDuplicateCharacters => {
       const numberOfCharactersToDelete =
         originalCountOfDuplicateLetters - newNumberOfDuplicateCharacters;

@@ -44,3 +44,16 @@ test('should return matching word if multiple letters are duplicated', t => {
     'England'
   );
 });
+
+test('should still return original word if it has duplicate letters even if there is a reduced letter option', t => {
+  t.deepEqual(
+    Spellchecker.getInstance(['abbotship']).checkWord('abbotship'),
+    'abbotship'
+  );
+
+  t.deepEqual(Spellchecker.getInstance(['a', 'aa']).checkWord('aa'), 'aa');
+});
+
+test('should return the closest option to the original word if duplicate letters', t => {
+  t.deepEqual(Spellchecker.getInstance(['a', 'aa']).checkWord('aaa'), 'aa');
+});
