@@ -10,7 +10,7 @@ export interface IObjectWithIndexedProperties {
   [key: string]: string | undefined;
 }
 
-export function mergeObjectWithIndexedProperties<
+export function mergeObjectsWithIndexedProperties<
   T extends IObjectWithIndexedProperties
 >(object1: T, object2: T) {
   return Object.assign(object1, object2);
