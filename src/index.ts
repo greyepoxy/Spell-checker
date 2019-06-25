@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as readline from 'readline';
 import { Dictionary } from './dictionary';
+import { findWordOptionsWithLessDuplicateLetters } from './findWordOptionsWithLessDuplicateLetters';
 
 export function checkWord(
   wordToCheck: string,
@@ -8,9 +9,17 @@ export function checkWord(
 ): string {
   const dictionary = Dictionary.getInstance(wordsToCheckAgainst);
 
-  const matchingWord = dictionary.tryGetMatchingWord(wordToCheck.toLowerCase());
-  if (matchingWord !== null) {
-    return matchingWord;
+  const lowerCaseWordToCheck = wordToCheck.toLowerCase();
+
+  const wordsToCheck = findWordOptionsWithLessDuplicateLetters(
+    lowerCaseWordToCheck
+  );
+
+  for (const word of wordsToCheck) {
+    const matchingWord = dictionary.tryGetMatchingWord(word);
+    if (matchingWord !== null) {
+      return matchingWord;
+    }
   }
 
   return 'No Correction Found';
