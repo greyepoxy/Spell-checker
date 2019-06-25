@@ -25,26 +25,21 @@ export function findWordOptionsWithLessDuplicateLetters(
       indexOfLastDuplicateLetter - currentIndex + 1;
 
     const additionalWordOptions = createSequence(numberOfDuplicateLetters - 1)
-      .map(indexDifference => {
-        const newIndexOfLastDuplicateLetter =
-          indexOfLastDuplicateLetter - indexDifference;
-        const charactersInFrontOfDuplicateLetters = lowerCaseWordToCheck.slice(
-          0,
-          currentIndex
+      .map(count => count + 1)
+      .map(newNumberOfDuplicateCharacters => {
+        const numberOfCharactersToDelete =
+          numberOfDuplicateLetters - newNumberOfDuplicateCharacters;
+        const newWordOption = spliceString(
+          lowerCaseWordToCheck,
+          currentIndex,
+          numberOfCharactersToDelete
         );
-        const charactersAfterDuplicateLetters = lowerCaseWordToCheck.slice(
-          newIndexOfLastDuplicateLetter,
-          lowerCaseWordToCheck.length
-        );
-
-        const newNumberOfDuplicateCharacters = indexDifference + 1;
+        const newFirstIndexAfterDuplicateLetters =
+          currentIndex + newNumberOfDuplicateCharacters;
 
         return {
-          newFirstIndexAfterDuplicateLetters:
-            currentIndex + newNumberOfDuplicateCharacters,
-          newWordOption:
-            charactersInFrontOfDuplicateLetters +
-            charactersAfterDuplicateLetters,
+          newFirstIndexAfterDuplicateLetters,
+          newWordOption,
         };
       })
       .map(({ newWordOption, newFirstIndexAfterDuplicateLetters }) => {
@@ -59,6 +54,19 @@ export function findWordOptionsWithLessDuplicateLetters(
   }
 
   return wordOptionsToCheck;
+}
+
+function spliceString(
+  stringToSplice: string,
+  startIndex: number,
+  deleteCount: number
+): string {
+  const charactersInFrontOfStartIndex = stringToSplice.slice(0, startIndex);
+  const charactersAfterDeletedCharacters = stringToSplice.slice(
+    startIndex + deleteCount
+  );
+
+  return charactersInFrontOfStartIndex + charactersAfterDeletedCharacters;
 }
 
 function currentIndexOrLastIndexOfMatchingLetters(
