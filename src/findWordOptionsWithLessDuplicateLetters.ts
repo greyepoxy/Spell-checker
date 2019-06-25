@@ -1,4 +1,4 @@
-import { createSequence } from './languageExtensions';
+import { concatArrays, createSequence } from './languageExtensions';
 
 export function findWordOptionsWithLessDuplicateLetters(
   lowerCaseWordToCheck: string,
@@ -58,7 +58,7 @@ export function findWordOptionsWithLessDuplicateLetters(
           );
         }
       )
-      .reduce((previous, current) => previous.concat(current), []);
+      .reduce(concatArrays, []);
 
     wordOptionsToCheck.push(...additionalWordOptions);
   }
