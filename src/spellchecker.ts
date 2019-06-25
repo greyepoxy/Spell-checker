@@ -1,4 +1,4 @@
-import { findWordOptionsWithLessDuplicateLetters } from './findWordOptionsWithLessDuplicateLetters';
+import { getAllWordsOptionsWithReducedDuplicateLetters } from './getAllWordsOptionsWithReducedDuplicateLetters';
 import { mergeObjectsWithIndexedProperties } from './languageExtensions';
 
 interface IWords {
@@ -21,7 +21,7 @@ export class Spellchecker {
   public checkWord(wordToCheck: string): string {
     const lowerCaseWordToCheck = wordToCheck.toLowerCase();
 
-    const wordsToCheck = findWordOptionsWithLessDuplicateLetters(
+    const wordsToCheck = getAllWordsOptionsWithReducedDuplicateLetters(
       lowerCaseWordToCheck
     );
 

@@ -4,7 +4,7 @@ import {
   spliceString,
 } from './languageExtensions';
 
-export function findWordOptionsWithLessDuplicateLetters(
+export function getAllWordsOptionsWithReducedDuplicateLetters(
   lowerCaseWordToCheck: string,
   indexToStartAt: number = 0
 ): string[] {
@@ -64,7 +64,7 @@ function getAdditionalWordOptionsWithLessDuplicateLettersToCheck(
       };
     })
     .map(({ newWordOption, newFirstIndexAfterDuplicateLetters }) => {
-      return findWordOptionsWithLessDuplicateLetters(
+      return getAllWordsOptionsWithReducedDuplicateLetters(
         newWordOption,
         newFirstIndexAfterDuplicateLetters
       );
