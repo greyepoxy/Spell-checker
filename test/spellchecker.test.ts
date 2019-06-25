@@ -23,6 +23,11 @@ test('should return matching word with fixed casing', t => {
   );
 });
 
+test('should return original word (and casing) if multiple match options that only differ in casing', t => {
+  t.deepEqual(Spellchecker.getInstance(['A', 'a']).checkWord('a'), 'a');
+  t.deepEqual(Spellchecker.getInstance(['A', 'a']).checkWord('A'), 'A');
+});
+
 test('should return matching word if only one letter is duplicated', t => {
   t.deepEqual(
     Spellchecker.getInstance(['England']).checkWord('Enggland'),

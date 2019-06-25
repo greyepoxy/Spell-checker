@@ -1,8 +1,7 @@
 import { getAllWordsOptionsWithReducedDuplicateLetters } from './getAllWordsOptionsWithReducedDuplicateLetters';
-import { mergeObjectsWithIndexedProperties } from './languageExtensions';
 
 interface IWords {
-  [lowerCaseWord: string]: string | undefined;
+  [key: string]: string | undefined;
 }
 
 export class Spellchecker {
@@ -10,12 +9,32 @@ export class Spellchecker {
     return new Spellchecker(words);
   }
 
-  private words: IWords;
+  private caseInSensitiveWordMap: IWords;
+  private caseSensitiveWordMap: IWords;
 
   private constructor(words: ReadonlyArray<string>) {
-    this.words = words
-      .map(word => ({ [word.toLowerCase()]: word }))
-      .reduce(mergeObjectsWithIndexedProperties, {} as IWords);
+    const wordMaps = words.reduce(
+      (previous, current) => {
+        return {
+          caseInSensitiveWordMap: Object.assign(
+            previous.caseInSensitiveWordMap,
+            {
+              [current.toLowerCase()]: current,
+            }
+          ),
+          caseSensitiveWordMap: Object.assign(previous.caseSensitiveWordMap, {
+            [current]: '',
+          }),
+        };
+      },
+      {
+        caseInSensitiveWordMap: {} as IWords,
+        caseSensitiveWordMap: {} as IWords,
+      }
+    );
+
+    this.caseInSensitiveWordMap = wordMaps.caseInSensitiveWordMap;
+    this.caseSensitiveWordMap = wordMaps.caseSensitiveWordMap;
   }
 
   public checkWord(wordToCheck: string): string {
@@ -34,8 +53,22 @@ export class Spellchecker {
   }
 
   private tryGetMatchingWord(wordToCheck: string): string | null {
-    const maybeWordInDictionary = this.words[wordToCheck.toLowerCase()];
+    const maybeWordInCaseSensitiveWordMap = this.caseSensitiveWordMap[
+      wordToCheck
+    ];
 
-    return maybeWordInDictionary !== undefined ? maybeWordInDictionary : null;
+    if (maybeWordInCaseSensitiveWordMap !== undefined) {
+      return wordToCheck;
+    }
+
+    const maybeWordInCaseInSensitiveWordMap = this.caseInSensitiveWordMap[
+      wordToCheck.toLowerCase()
+    ];
+
+    if (maybeWordInCaseInSensitiveWordMap !== undefined) {
+      return maybeWordInCaseInSensitiveWordMap;
+    }
+
+    return null;
   }
 }
