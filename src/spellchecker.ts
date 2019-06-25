@@ -1,7 +1,7 @@
 import { getAllWordsOptionsWithReducedDuplicateLetters } from './getAllWordsOptionsWithReducedDuplicateLetters';
 
 interface IWords {
-  [key: string]: string | undefined;
+  [key: string]: string[] | undefined;
 }
 
 export class Spellchecker {
@@ -9,32 +9,26 @@ export class Spellchecker {
     return new Spellchecker(words);
   }
 
-  private caseInSensitiveWordMap: IWords;
-  private caseSensitiveWordMap: IWords;
+  private caseInSensitiveWordMap: IWords = {};
 
   private constructor(words: ReadonlyArray<string>) {
-    const wordMaps = words.reduce(
-      (previous, current) => {
-        return {
-          caseInSensitiveWordMap: Object.assign(
-            previous.caseInSensitiveWordMap,
-            {
-              [current.toLowerCase()]: current,
-            }
-          ),
-          caseSensitiveWordMap: Object.assign(previous.caseSensitiveWordMap, {
-            [current]: '',
-          }),
-        };
-      },
-      {
-        caseInSensitiveWordMap: {} as IWords,
-        caseSensitiveWordMap: {} as IWords,
-      }
-    );
+    for (const currentWord of words) {
+      const lowerCaseCurrentWord = currentWord.toLowerCase();
+      const maybeExistingWords = this.caseInSensitiveWordMap[
+        lowerCaseCurrentWord
+      ];
 
-    this.caseInSensitiveWordMap = wordMaps.caseInSensitiveWordMap;
-    this.caseSensitiveWordMap = wordMaps.caseSensitiveWordMap;
+      const existingWordsList =
+        // check if it is an array because for words like 'constructor'
+        // the default object prototype function is returned
+        maybeExistingWords === undefined || !Array.isArray(maybeExistingWords)
+          ? []
+          : maybeExistingWords;
+
+      const wordsToSet = existingWordsList.concat(currentWord);
+
+      this.caseInSensitiveWordMap[lowerCaseCurrentWord] = wordsToSet;
+    }
   }
 
   public checkWord(wordToCheck: string): string {
@@ -53,22 +47,37 @@ export class Spellchecker {
   }
 
   private tryGetMatchingWord(wordToCheck: string): string | null {
-    const maybeWordInCaseSensitiveWordMap = this.caseSensitiveWordMap[
-      wordToCheck
-    ];
-
-    if (maybeWordInCaseSensitiveWordMap !== undefined) {
-      return wordToCheck;
-    }
-
-    const maybeWordInCaseInSensitiveWordMap = this.caseInSensitiveWordMap[
+    const matchingWords = this.caseInSensitiveWordMap[
       wordToCheck.toLowerCase()
     ];
 
-    if (maybeWordInCaseInSensitiveWordMap !== undefined) {
-      return maybeWordInCaseInSensitiveWordMap;
+    if (matchingWords === undefined) {
+      return null;
     }
 
-    return null;
+    const matchingWordsAndNumberOfCasingDifferences = matchingWords.map(
+      matchingWord => {
+        let numberOfCasingDifferences = 0;
+        for (let i = 0; i < wordToCheck.length; i++) {
+          if (wordToCheck[i] !== matchingWord[i]) {
+            numberOfCasingDifferences++;
+          }
+        }
+
+        return { matchingWord, numberOfCasingDifferences };
+      }
+    );
+
+    const matchingWordWithMinimumCasingDifferences = matchingWordsAndNumberOfCasingDifferences.reduce(
+      (previous, current) => {
+        return current.numberOfCasingDifferences <
+          previous.numberOfCasingDifferences
+          ? current
+          : previous;
+      },
+      matchingWordsAndNumberOfCasingDifferences.splice(0, 1)[0]
+    );
+
+    return matchingWordWithMinimumCasingDifferences.matchingWord;
   }
 }

@@ -80,3 +80,10 @@ test('should still return original word if it has duplicate letters even if ther
 test('should return the closest option to the original word if duplicate letters', t => {
   t.deepEqual(Spellchecker.getInstance(['a', 'aa']).checkWord('aaa'), 'aa');
 });
+
+test('should return word with fewest number of letter transformations required', t => {
+  t.deepEqual(
+    Spellchecker.getInstance(['Mister', 'mister']).checkWord('MiSter'),
+    'Mister'
+  );
+});

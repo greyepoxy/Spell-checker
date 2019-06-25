@@ -25,7 +25,7 @@ test('if no match for incoming word returns “No Correction Found”', t => {
 test('fixes bad casing in original word', t => {
   t.deepEqual(spellchecker.checkWord('paRNAssus'), 'Parnassus');
   t.deepEqual(spellchecker.checkWord('vishnuvite'), 'Vishnuvite');
-  t.deepEqual(spellchecker.checkWord('MiSter'), 'mister');
+  t.deepEqual(spellchecker.checkWord('MiSter'), 'Mister');
 });
 
 test('removes repeating characters', t => {
@@ -37,5 +37,5 @@ test('removes repeating characters', t => {
 test('removes repeating characters and fixes casing simultaneously', t => {
   t.deepEqual(spellchecker.checkWord('paRNAsssus'), 'Parnassus');
   t.deepEqual(spellchecker.checkWord('rrreAlly'), 'really');
-  t.deepEqual(spellchecker.checkWord('MiiiIstTter'), 'mister');
+  t.deepEqual(spellchecker.checkWord('MiiiIstTter'), 'Mister');
 });

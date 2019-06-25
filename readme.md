@@ -27,12 +27,6 @@ Check out [the examples](./test/examples.ts) file for more usage examples
 1. Better performance could be achieved if needed
 1. This is needed on a server or in a desktop application (won't work in the browser as written)
 
-### Limitations
-
-#### Matching against multiple words with different casing
-
-When there are multiple words with just casing differences in the dictionary then the matching is a little arbitrary. Will match correctly if in the dictionary the word exists with the exact casing but if there is a slight casing mistake then will always prefer matching against the last version of the word loaded into the dictionary. Likely the desired behavior would be to match against the word with the fewest required casing transformations to be an exact match.
-
 ### How to build from source
 
 From this project directory
