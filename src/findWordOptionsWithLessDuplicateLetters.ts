@@ -8,21 +8,21 @@ export function findWordOptionsWithLessDuplicateLetters(
 
   // tslint:disable-next-line: prefer-for-of
   for (
-    let currentIndex = indexToStartAt;
-    currentIndex < lowerCaseWordToCheck.length - 1;
-    currentIndex++
+    let indexOfFirstDuplicateLetter = indexToStartAt;
+    indexOfFirstDuplicateLetter < lowerCaseWordToCheck.length - 1;
+    indexOfFirstDuplicateLetter++
   ) {
     const indexOfLastDuplicateLetter = currentIndexOrLastIndexOfMatchingLetters(
       lowerCaseWordToCheck,
-      currentIndex
+      indexOfFirstDuplicateLetter
     );
 
-    if (currentIndex === indexOfLastDuplicateLetter) {
+    if (indexOfFirstDuplicateLetter === indexOfLastDuplicateLetter) {
       continue;
     }
 
     const numberOfDuplicateLetters =
-      indexOfLastDuplicateLetter - currentIndex + 1;
+      indexOfLastDuplicateLetter - indexOfFirstDuplicateLetter + 1;
 
     const additionalWordOptions = createSequence(numberOfDuplicateLetters - 1)
       .map(count => count + 1)
@@ -31,11 +31,11 @@ export function findWordOptionsWithLessDuplicateLetters(
           numberOfDuplicateLetters - newNumberOfDuplicateCharacters;
         const newWordOption = spliceString(
           lowerCaseWordToCheck,
-          currentIndex,
+          indexOfFirstDuplicateLetter,
           numberOfCharactersToDelete
         );
         const newFirstIndexAfterDuplicateLetters =
-          currentIndex + newNumberOfDuplicateCharacters;
+          indexOfFirstDuplicateLetter + newNumberOfDuplicateCharacters;
 
         return {
           newFirstIndexAfterDuplicateLetters,
