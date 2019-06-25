@@ -47,17 +47,12 @@ export function findWordOptionsWithLessDuplicateLetters(
             charactersAfterDuplicateLetters,
         };
       })
-      .map(
-        ({
+      .map(({ newWordOption, newFirstIndexAfterDuplicateLetters }) => {
+        return findWordOptionsWithLessDuplicateLetters(
           newWordOption,
-          newFirstIndexAfterDuplicateLetters: firstIndexAfterDuplicateLetters,
-        }) => {
-          return findWordOptionsWithLessDuplicateLetters(
-            newWordOption,
-            firstIndexAfterDuplicateLetters
-          );
-        }
-      )
+          newFirstIndexAfterDuplicateLetters
+        );
+      })
       .reduce(concatArrays, []);
 
     wordOptionsToCheck.push(...additionalWordOptions);
