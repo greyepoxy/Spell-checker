@@ -55,7 +55,7 @@ export class Spellchecker {
       return null;
     }
 
-    const matchingWordsAndNumberOfCasingDifferences = matchingWords.map(
+    const matchingWordsWithCountOfCasingDifferences = matchingWords.map(
       matchingWord => {
         const countOfCasingDifferences = getCountOfCharacterDifferencesBetweenWords(
           wordToCheck,
@@ -64,23 +64,34 @@ export class Spellchecker {
 
         return {
           countOfCasingDifferences,
-          matchingWord,
+          word: matchingWord,
         };
       }
     );
 
-    const matchingWordWithMinimumCasingDifferences = matchingWordsAndNumberOfCasingDifferences.reduce(
-      (previous, current) => {
-        return current.countOfCasingDifferences <
-          previous.countOfCasingDifferences
-          ? current
-          : previous;
-      },
-      matchingWordsAndNumberOfCasingDifferences.splice(0, 1)[0]
+    return getWordWithMinimumCasingDifferences(
+      matchingWordsWithCountOfCasingDifferences
     );
-
-    return matchingWordWithMinimumCasingDifferences.matchingWord;
   }
+}
+
+function getWordWithMinimumCasingDifferences(
+  matchingWordsWithCountOfCasingDifferences: Array<{
+    countOfCasingDifferences: number;
+    word: string;
+  }>
+): string {
+  const matchingWordWithMinimumCasingDifferences = matchingWordsWithCountOfCasingDifferences.reduce(
+    (previous, current) => {
+      return current.countOfCasingDifferences <
+        previous.countOfCasingDifferences
+        ? current
+        : previous;
+    },
+    matchingWordsWithCountOfCasingDifferences.splice(0, 1)[0]
+  );
+
+  return matchingWordWithMinimumCasingDifferences.word;
 }
 
 function getCountOfCharacterDifferencesBetweenWords(
