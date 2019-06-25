@@ -1,25 +1,46 @@
 import test from 'ava';
-import { checkWord } from '../src/index';
+import { Spellchecker } from '../src/index';
 
 test('should report no correction for un-recognized words', t => {
-  t.deepEqual(checkWord('england', []), 'No Correction Found');
+  t.deepEqual(
+    Spellchecker.getInstance([]).checkWord('england'),
+    'No Correction Found'
+  );
 });
 
 test('should return original word if matching word found', t => {
-  t.deepEqual(checkWord('table', ['table']), 'table');
+  t.deepEqual(Spellchecker.getInstance(['table']).checkWord('table'), 'table');
 });
 
 test('should return matching word with fixed casing', t => {
-  t.deepEqual(checkWord('england', ['England']), 'England');
-  t.deepEqual(checkWord('enGLaNd', ['England']), 'England');
+  t.deepEqual(
+    Spellchecker.getInstance(['England']).checkWord('england'),
+    'England'
+  );
+  t.deepEqual(
+    Spellchecker.getInstance(['England']).checkWord('enGLaNd'),
+    'England'
+  );
 });
 
 test('should return matching word if only one letter is duplicated', t => {
-  t.deepEqual(checkWord('Enggland', ['England']), 'England');
-  t.deepEqual(checkWord('Enggggggland', ['England']), 'England');
+  t.deepEqual(
+    Spellchecker.getInstance(['England']).checkWord('Enggland'),
+    'England'
+  );
+  t.deepEqual(
+    Spellchecker.getInstance(['England']).checkWord('Enggggggland'),
+    'England'
+  );
 });
 
 test('should return matching word if multiple letters are duplicated', t => {
-  t.deepEqual(checkWord('Engglaaand', ['England']), 'England');
-  t.deepEqual(checkWord('Eeennnggllllaaannnddd', ['England']), 'England');
+  t.deepEqual(
+    Spellchecker.getInstance(['England']).checkWord('Engglaaand'),
+    'England'
+  );
+  t.deepEqual(
+    Spellchecker.getInstance(['England']).checkWord('Eeennnggllllaaannnddd'),
+    'England'
+  );
 });

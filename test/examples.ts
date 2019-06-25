@@ -1,14 +1,16 @@
 import test from 'ava';
 import * as path from 'path';
-import { checkWord, readWordsFromFile } from '../src/index';
+import { readWordsFromFile, Spellchecker } from '../src/index';
 
-let words: ReadonlyArray<string>;
+let spellchecker: Spellchecker;
 
 test.before(async () => {
-  words = await readWordsFromFile(path.join(__dirname, '../resources/words'));
+  spellchecker = Spellchecker.getInstance(
+    await readWordsFromFile(path.join(__dirname, '../resources/words'))
+  );
 });
 
 test('some lower case words that match', t => {
-  t.deepEqual(checkWord('engender', words), 'engender');
-  t.deepEqual(checkWord('table', words), 'table');
+  t.deepEqual(spellchecker.checkWord('engender'), 'engender');
+  t.deepEqual(spellchecker.checkWord('table'), 'table');
 });
