@@ -8,6 +8,13 @@ test('should report no correction for un-recognized words', t => {
   );
 });
 
+test('should report no correction for empty string', t => {
+  t.deepEqual(
+    Spellchecker.getInstance([]).checkWord(''),
+    'No Correction Found'
+  );
+});
+
 test('should return original word if matching word found', t => {
   t.deepEqual(Spellchecker.getInstance(['table']).checkWord('table'), 'table');
 });
