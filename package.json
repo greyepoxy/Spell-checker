@@ -9,12 +9,15 @@
     "build": "npm install && npm run :build",
     "test": "ava",
     "watch": "run-p watch:*",
-    "watch:build": "run-s \":compile -- --watch\"",
+    "watch:compile": "run-s \":compile -- --watch\"",
     "watch:test": "ava --watch",
-    ":build": "npm-run-all :clean -p :compile :copy:resources -s test",
+    ":build": "npm-run-all :clean -p :compile :copy:resources :lint -s test",
     ":clean": "rimraf ./lib",
     ":compile": "tsc -b src test",
-    ":copy:resources": "cpy ./resources/words ./lib/resources"
+    ":copy:resources": "cpy ./resources/words ./lib/resources",
+    ":lint": "run-p :lint:*",
+    ":lint:src": "tslint -p ./src",
+    ":lint:test": "tslint -p ./test"
   },
   "author": "greyepoxy",
   "license": "MIT",
