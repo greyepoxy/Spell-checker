@@ -1,4 +1,5 @@
 import { findWordOptionsWithLessDuplicateLetters } from './findWordOptionsWithLessDuplicateLetters';
+import { mergeObjectWithIndexedProperties } from './languageExtensions';
 
 interface IWords {
   [lowerCaseWord: string]: string | undefined;
@@ -14,12 +15,7 @@ export class Spellchecker {
   private constructor(words: ReadonlyArray<string>) {
     this.words = words
       .map(word => ({ [word.toLowerCase()]: word }))
-      .reduce(
-        (previousValue, currentValue) => {
-          return Object.assign(previousValue, currentValue);
-        },
-        {} as IWords
-      );
+      .reduce(mergeObjectWithIndexedProperties, {} as IWords);
   }
 
   public checkWord(wordToCheck: string): string {

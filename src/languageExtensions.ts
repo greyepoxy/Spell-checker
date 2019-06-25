@@ -5,3 +5,13 @@ export function createSequence(count: number): number[] {
   }
   return array;
 }
+
+export interface IObjectWithIndexedProperties {
+  [key: string]: string | undefined;
+}
+
+export function mergeObjectWithIndexedProperties<
+  T extends IObjectWithIndexedProperties
+>(object1: T, object2: T) {
+  return Object.assign(object1, object2);
+}
