@@ -25,13 +25,13 @@ export function findWordOptionsWithLessDuplicateLetters(
       continue;
     }
 
-    const numberOfDuplicateLetters =
+    const countOfDuplicateLetters =
       indexOfLastDuplicateLetter - indexOfFirstDuplicateLetter + 1;
 
-    const additionalWordOptions = getAdditionalWordOptionsToCheck(
+    const additionalWordOptions = getAdditionalWordOptionsWithLessDuplicateLettersToCheck(
       lowerCaseWordToCheck,
       indexOfFirstDuplicateLetter,
-      numberOfDuplicateLetters
+      countOfDuplicateLetters
     );
 
     wordOptionsToCheck.push(...additionalWordOptions);
@@ -40,18 +40,18 @@ export function findWordOptionsWithLessDuplicateLetters(
   return wordOptionsToCheck;
 }
 
-function getAdditionalWordOptionsToCheck(
-  lowerCaseWordToCheck: string,
+function getAdditionalWordOptionsWithLessDuplicateLettersToCheck(
+  originalWord: string,
   indexOfFirstDuplicateLetter: number,
-  numberOfDuplicateLetters: number
+  originalCountOfDuplicateLetters: number
 ): string[] {
-  return createSequence(numberOfDuplicateLetters - 1)
+  return createSequence(originalCountOfDuplicateLetters - 1)
     .map(count => count + 1)
     .map(newNumberOfDuplicateCharacters => {
       const numberOfCharactersToDelete =
-        numberOfDuplicateLetters - newNumberOfDuplicateCharacters;
+        originalCountOfDuplicateLetters - newNumberOfDuplicateCharacters;
       const newWordOption = spliceString(
-        lowerCaseWordToCheck,
+        originalWord,
         indexOfFirstDuplicateLetter,
         numberOfCharactersToDelete
       );
