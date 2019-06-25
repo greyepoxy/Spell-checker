@@ -47,6 +47,14 @@ test('should return matching word if only one letter is duplicated', t => {
     Spellchecker.getInstance(['England']).checkWord('Enggggggland'),
     'England'
   );
+  t.deepEqual(
+    Spellchecker.getInstance(['England']).checkWord('EngggGggland'),
+    'England'
+  );
+  t.deepEqual(
+    Spellchecker.getInstance(['England']).checkWord('EeeeEngland'),
+    'England'
+  );
 });
 
 test('should return matching word if multiple letters are duplicated', t => {
@@ -55,7 +63,7 @@ test('should return matching word if multiple letters are duplicated', t => {
     'England'
   );
   t.deepEqual(
-    Spellchecker.getInstance(['England']).checkWord('Eeennnggllllaaannnddd'),
+    Spellchecker.getInstance(['England']).checkWord('EeEnnngglLllaaannnddd'),
     'England'
   );
 });
