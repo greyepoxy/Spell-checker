@@ -57,21 +57,22 @@ export class Spellchecker {
 
     const matchingWordsAndNumberOfCasingDifferences = matchingWords.map(
       matchingWord => {
-        let numberOfCasingDifferences = 0;
-        for (let i = 0; i < wordToCheck.length; i++) {
-          if (wordToCheck[i] !== matchingWord[i]) {
-            numberOfCasingDifferences++;
-          }
-        }
+        const countOfCasingDifferences = getCountOfCharacterDifferencesBetweenWords(
+          wordToCheck,
+          matchingWord
+        );
 
-        return { matchingWord, numberOfCasingDifferences };
+        return {
+          countOfCasingDifferences,
+          matchingWord,
+        };
       }
     );
 
     const matchingWordWithMinimumCasingDifferences = matchingWordsAndNumberOfCasingDifferences.reduce(
       (previous, current) => {
-        return current.numberOfCasingDifferences <
-          previous.numberOfCasingDifferences
+        return current.countOfCasingDifferences <
+          previous.countOfCasingDifferences
           ? current
           : previous;
       },
@@ -80,4 +81,18 @@ export class Spellchecker {
 
     return matchingWordWithMinimumCasingDifferences.matchingWord;
   }
+}
+
+function getCountOfCharacterDifferencesBetweenWords(
+  word1: string,
+  word2: string
+): number {
+  let countOfDifferences = 0;
+  for (let i = 0; i < word1.length; i++) {
+    if (word1[i] !== word2[i]) {
+      countOfDifferences++;
+    }
+  }
+
+  return countOfDifferences;
 }
