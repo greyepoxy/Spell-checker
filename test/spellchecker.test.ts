@@ -16,7 +16,10 @@ test('should report no correction for empty string', t => {
 });
 
 test('should return original word if matching word found', t => {
-  t.deepEqual(Spellchecker.getInstance(['table']).checkWord('table'), 'table');
+  t.deepEqual(
+    Spellchecker.getInstance(['table', 'document']).checkWord('table'),
+    'table'
+  );
 });
 
 test('should return matching word with fixed casing', t => {
