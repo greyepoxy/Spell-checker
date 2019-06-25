@@ -19,10 +19,8 @@ export class Spellchecker {
   }
 
   public checkWord(wordToCheck: string): string {
-    const lowerCaseWordToCheck = wordToCheck.toLowerCase();
-
     const wordsToCheck = getAllWordsOptionsWithReducedDuplicateLetters(
-      lowerCaseWordToCheck
+      wordToCheck
     );
 
     for (const word of wordsToCheck) {
@@ -35,8 +33,8 @@ export class Spellchecker {
     return 'No Correction Found';
   }
 
-  private tryGetMatchingWord(word: string): string | null {
-    const maybeWordInDictionary = this.words[word];
+  private tryGetMatchingWord(wordToCheck: string): string | null {
+    const maybeWordInDictionary = this.words[wordToCheck.toLowerCase()];
 
     return maybeWordInDictionary !== undefined ? maybeWordInDictionary : null;
   }

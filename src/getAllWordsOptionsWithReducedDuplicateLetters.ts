@@ -5,19 +5,19 @@ import {
 } from './languageExtensions';
 
 export function getAllWordsOptionsWithReducedDuplicateLetters(
-  lowerCaseWordToCheck: string,
+  wordToCheck: string,
   indexToStartAt: number = 0
 ): string[] {
-  const wordOptionsToCheck = [lowerCaseWordToCheck];
+  const wordOptionsToCheck = [wordToCheck];
 
   // tslint:disable-next-line: prefer-for-of
   for (
     let indexOfFirstDuplicateLetter = indexToStartAt;
-    indexOfFirstDuplicateLetter < lowerCaseWordToCheck.length - 1;
+    indexOfFirstDuplicateLetter < wordToCheck.length - 1;
     indexOfFirstDuplicateLetter++
   ) {
     const indexOfLastDuplicateLetter = currentIndexOrLastIndexOfMatchingLetters(
-      lowerCaseWordToCheck,
+      wordToCheck,
       indexOfFirstDuplicateLetter
     );
 
@@ -29,7 +29,7 @@ export function getAllWordsOptionsWithReducedDuplicateLetters(
       indexOfLastDuplicateLetter - indexOfFirstDuplicateLetter + 1;
 
     const additionalWordOptions = getAdditionalWordOptionsWithLessDuplicateLettersToCheck(
-      lowerCaseWordToCheck,
+      wordToCheck,
       indexOfFirstDuplicateLetter,
       countOfDuplicateLetters
     );
@@ -80,10 +80,14 @@ function currentIndexOrLastIndexOfMatchingLetters(
   const nextIndex = currentIndex + 1;
   if (
     nextIndex < wordToCheck.length &&
-    wordToCheck[currentIndex] === wordToCheck[nextIndex]
+    lettersMatch(wordToCheck[currentIndex], wordToCheck[nextIndex])
   ) {
     return currentIndexOrLastIndexOfMatchingLetters(wordToCheck, nextIndex);
   }
 
   return currentIndex;
+}
+
+function lettersMatch(firstLetter: string, secondLetter: string): boolean {
+  return firstLetter.toLowerCase() === secondLetter.toLowerCase();
 }
