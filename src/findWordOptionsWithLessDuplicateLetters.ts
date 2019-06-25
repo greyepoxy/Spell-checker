@@ -28,36 +28,48 @@ export function findWordOptionsWithLessDuplicateLetters(
     const numberOfDuplicateLetters =
       indexOfLastDuplicateLetter - indexOfFirstDuplicateLetter + 1;
 
-    const additionalWordOptions = createSequence(numberOfDuplicateLetters - 1)
-      .map(count => count + 1)
-      .map(newNumberOfDuplicateCharacters => {
-        const numberOfCharactersToDelete =
-          numberOfDuplicateLetters - newNumberOfDuplicateCharacters;
-        const newWordOption = spliceString(
-          lowerCaseWordToCheck,
-          indexOfFirstDuplicateLetter,
-          numberOfCharactersToDelete
-        );
-        const newFirstIndexAfterDuplicateLetters =
-          indexOfFirstDuplicateLetter + newNumberOfDuplicateCharacters;
-
-        return {
-          newFirstIndexAfterDuplicateLetters,
-          newWordOption,
-        };
-      })
-      .map(({ newWordOption, newFirstIndexAfterDuplicateLetters }) => {
-        return findWordOptionsWithLessDuplicateLetters(
-          newWordOption,
-          newFirstIndexAfterDuplicateLetters
-        );
-      })
-      .reduce(concatArrays, []);
+    const additionalWordOptions = getAdditionalWordOptionsToCheck(
+      lowerCaseWordToCheck,
+      indexOfFirstDuplicateLetter,
+      numberOfDuplicateLetters
+    );
 
     wordOptionsToCheck.push(...additionalWordOptions);
   }
 
   return wordOptionsToCheck;
+}
+
+function getAdditionalWordOptionsToCheck(
+  lowerCaseWordToCheck: string,
+  indexOfFirstDuplicateLetter: number,
+  numberOfDuplicateLetters: number
+): string[] {
+  return createSequence(numberOfDuplicateLetters - 1)
+    .map(count => count + 1)
+    .map(newNumberOfDuplicateCharacters => {
+      const numberOfCharactersToDelete =
+        numberOfDuplicateLetters - newNumberOfDuplicateCharacters;
+      const newWordOption = spliceString(
+        lowerCaseWordToCheck,
+        indexOfFirstDuplicateLetter,
+        numberOfCharactersToDelete
+      );
+      const newFirstIndexAfterDuplicateLetters =
+        indexOfFirstDuplicateLetter + newNumberOfDuplicateCharacters;
+
+      return {
+        newFirstIndexAfterDuplicateLetters,
+        newWordOption,
+      };
+    })
+    .map(({ newWordOption, newFirstIndexAfterDuplicateLetters }) => {
+      return findWordOptionsWithLessDuplicateLetters(
+        newWordOption,
+        newFirstIndexAfterDuplicateLetters
+      );
+    })
+    .reduce(concatArrays, []);
 }
 
 function currentIndexOrLastIndexOfMatchingLetters(
