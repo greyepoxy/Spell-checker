@@ -1,34 +1,17 @@
 import { getAllWordsOptionsWithReducedDuplicateLetters } from './getAllWordsOptionsWithReducedDuplicateLetters';
-
-interface IWords {
-  [key: string]: string[] | undefined;
-}
+import { HashMap } from './hashMap';
 
 export class Spellchecker {
   public static getInstance(words: ReadonlyArray<string>): Spellchecker {
     return new Spellchecker(words);
   }
 
-  private caseInSensitiveWordMap: IWords = {};
+  private caseInSensitiveHashMap: HashMap<string>;
 
   private constructor(words: ReadonlyArray<string>) {
-    for (const currentWord of words) {
-      const lowerCaseCurrentWord = currentWord.toLowerCase();
-      const maybeExistingWords = this.caseInSensitiveWordMap[
-        lowerCaseCurrentWord
-      ];
-
-      const existingWordsList =
-        // check if it is an array because for words like 'constructor'
-        // the default object prototype function is returned
-        maybeExistingWords === undefined || !Array.isArray(maybeExistingWords)
-          ? []
-          : maybeExistingWords;
-
-      const wordsToSet = existingWordsList.concat(currentWord);
-
-      this.caseInSensitiveWordMap[lowerCaseCurrentWord] = wordsToSet;
-    }
+    this.caseInSensitiveHashMap = HashMap.fromArray(words, word =>
+      word.toLowerCase()
+    );
   }
 
   public checkWord(wordToCheck: string): string {
@@ -47,11 +30,11 @@ export class Spellchecker {
   }
 
   private tryGetMatchingWord(wordToCheck: string): string | null {
-    const matchingWords = this.caseInSensitiveWordMap[
-      wordToCheck.toLowerCase()
-    ];
+    const matchingWords = this.caseInSensitiveHashMap.getBinForHashOfValue(
+      wordToCheck
+    );
 
-    if (matchingWords === undefined) {
+    if (matchingWords.length === 0) {
       return null;
     }
 

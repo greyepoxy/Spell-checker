@@ -1,5 +1,5 @@
 import test from 'ava';
-import { Spellchecker } from '../src/index';
+import { Spellchecker } from '../src/spellchecker';
 
 test('should report no correction for un-recognized words', t => {
   t.deepEqual(
