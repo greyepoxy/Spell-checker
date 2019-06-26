@@ -6,6 +6,16 @@ This project is an attempt at the [Ripl Spell-checker homework](https://github.c
 
 Install a recent version of Node https://nodejs.org/en/ (developed against v11.10.0 although older versions should work as well).
 
+#### Interactive Shell
+
+Run using an interactive shell using the following command from the project directory
+
+```unix
+node ./lib/src/interactive.js
+```
+
+#### Node API
+
 Import into an existing node application using a local file reference ([npm docs](https://docs.npmjs.com/files/package.json#local-paths) / [yarn docs](https://yarnpkg.com/lang/en/docs/cli/add/))
 
 Then this package can be used as follows
