@@ -4,38 +4,36 @@ import {
   spliceString,
 } from './languageExtensions';
 
-export function getAllWordsOptionsWithReducedDuplicateLetters(
+export function getAllWordOptionsWithReducedDuplicateLetters(
   wordToCheck: string,
   indexToStartAt: number = 0
 ): string[] {
   const wordOptionsToCheck = [wordToCheck];
 
-  // tslint:disable-next-line: prefer-for-of
-  for (
-    let indexOfFirstDuplicateLetter = indexToStartAt;
-    indexOfFirstDuplicateLetter < wordToCheck.length - 1;
-    indexOfFirstDuplicateLetter++
-  ) {
-    const indexOfLastDuplicateLetter = currentIndexOrLastIndexOfMatchingLetters(
-      wordToCheck,
-      indexOfFirstDuplicateLetter
-    );
+  const duplicateLetterStartAndEndIndex = findNextDuplicateLetters(
+    wordToCheck,
+    indexToStartAt
+  );
 
-    if (indexOfFirstDuplicateLetter === indexOfLastDuplicateLetter) {
-      continue;
-    }
-
-    const countOfDuplicateLetters =
-      indexOfLastDuplicateLetter - indexOfFirstDuplicateLetter + 1;
-
-    const additionalWordOptions = getAdditionalWordOptionsWithLessDuplicateLettersToCheck(
-      wordToCheck,
-      indexOfFirstDuplicateLetter,
-      countOfDuplicateLetters
-    );
-
-    wordOptionsToCheck.push(...additionalWordOptions);
+  if (duplicateLetterStartAndEndIndex === null) {
+    return wordOptionsToCheck;
   }
+
+  const [
+    indexOfFirstDuplicateLetter,
+    indexOfLastDuplicateLetter,
+  ] = duplicateLetterStartAndEndIndex;
+
+  const countOfDuplicateLetters =
+    indexOfLastDuplicateLetter - indexOfFirstDuplicateLetter + 1;
+
+  const additionalWordOptions = getAdditionalWordOptionsWithLessDuplicateLettersToCheck(
+    wordToCheck,
+    indexOfFirstDuplicateLetter,
+    countOfDuplicateLetters
+  );
+
+  wordOptionsToCheck.push(...additionalWordOptions);
 
   return wordOptionsToCheck;
 }
@@ -65,12 +63,36 @@ function getAdditionalWordOptionsWithLessDuplicateLettersToCheck(
       };
     })
     .map(({ newWordOption, newFirstIndexAfterDuplicateLetters }) => {
-      return getAllWordsOptionsWithReducedDuplicateLetters(
+      return getAllWordOptionsWithReducedDuplicateLetters(
         newWordOption,
         newFirstIndexAfterDuplicateLetters
       );
     })
     .reduce(concatArrays, []);
+}
+
+function findNextDuplicateLetters(
+  word: string,
+  indexToStartAt: number
+): [number, number] | null {
+  for (
+    let indexOfFirstDuplicateLetter = indexToStartAt;
+    indexOfFirstDuplicateLetter < word.length - 1;
+    indexOfFirstDuplicateLetter++
+  ) {
+    const indexOfLastDuplicateLetter = currentIndexOrLastIndexOfMatchingLetters(
+      word,
+      indexOfFirstDuplicateLetter
+    );
+
+    if (indexOfFirstDuplicateLetter === indexOfLastDuplicateLetter) {
+      continue;
+    }
+
+    return [indexOfFirstDuplicateLetter, indexOfLastDuplicateLetter];
+  }
+
+  return null;
 }
 
 function currentIndexOrLastIndexOfMatchingLetters(

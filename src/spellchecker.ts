@@ -1,4 +1,4 @@
-import { getAllWordsOptionsWithReducedDuplicateLetters } from './getAllWordsOptionsWithReducedDuplicateLetters';
+import { getAllWordOptionsWithReducedDuplicateLetters } from './getAllWordOptionsWithReducedDuplicateLetters';
 import { HashMap } from './hashMap';
 
 export class Spellchecker {
@@ -15,7 +15,7 @@ export class Spellchecker {
   }
 
   public checkWord(wordToCheck: string): string {
-    const wordsToCheck = getAllWordsOptionsWithReducedDuplicateLetters(
+    const wordsToCheck = getAllWordOptionsWithReducedDuplicateLetters(
       wordToCheck
     );
 
