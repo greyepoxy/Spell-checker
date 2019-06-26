@@ -31,12 +31,26 @@ test('should return two words if one duplicate letters', t => {
   assertItemOrderingIsTheSame(wordOptions, ['bllah', 'blah'], t);
 });
 
-test.only('should return four words if one letter is duplicated four times', t => {
+test('should return four words if one letter is duplicated four times', t => {
   const wordOptions = getAllWordOptionsWithReducedDuplicateLetters('bllllah');
 
   assertItemOrderingIsTheSame(
     wordOptions,
     ['bllllah', 'blllah', 'bllah', 'blah'],
+    t
+  );
+});
+
+test('should return combinatorial words if multiple letter are duplicated', t => {
+  assertItemOrderingIsTheSame(
+    getAllWordOptionsWithReducedDuplicateLetters('bllllaah'),
+    ['bllllaah', 'blllaah', 'blllah', 'bllaah', 'bllah', 'blaah', 'blah'],
+    t
+  );
+
+  assertItemOrderingIsTheSame(
+    getAllWordOptionsWithReducedDuplicateLetters('vveerrryy'),
+    ['vveerrryy', 'veerrryy', 'verrryy', 'verryy', 'verry', 'veryy', 'very'],
     t
   );
 });
