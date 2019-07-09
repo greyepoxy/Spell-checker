@@ -55,6 +55,10 @@ test('should return matching word if only one letter is duplicated', t => {
     Spellchecker.getInstance(['England']).checkWord('EeeeEngland'),
     'England'
   );
+  t.deepEqual(
+    Spellchecker.getInstance(['bllllah']).checkWord('bllllaah'),
+    'bllllah'
+  );
 });
 
 test('should return matching word if multiple letters are duplicated', t => {

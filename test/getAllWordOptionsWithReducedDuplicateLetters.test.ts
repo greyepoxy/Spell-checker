@@ -44,13 +44,47 @@ test('should return four words if one letter is duplicated four times', t => {
 test('should return combinatorial words if multiple letter are duplicated', t => {
   assertItemOrderingIsTheSame(
     getAllWordOptionsWithReducedDuplicateLetters('bllllaah'),
-    ['bllllaah', 'blllaah', 'blllah', 'bllaah', 'bllah', 'blaah', 'blah'],
+    [
+      'bllllaah',
+      'bllllah',
+      'blllaah',
+      'blllah',
+      'bllaah',
+      'bllah',
+      'blaah',
+      'blah',
+    ],
     t
   );
 
   assertItemOrderingIsTheSame(
     getAllWordOptionsWithReducedDuplicateLetters('vveerrryy'),
-    ['vveerrryy', 'veerrryy', 'verrryy', 'verryy', 'verry', 'veryy', 'very'],
+    [
+      'vveerrryy',
+      'vveerrry',
+      'vveerryy',
+      'vveerry',
+      'vveeryy',
+      'vveery',
+      'vverrryy',
+      'vverrry',
+      'vverryy',
+      'vverry',
+      'vveryy',
+      'vvery',
+      'veerrryy',
+      'veerrry',
+      'veerryy',
+      'veerry',
+      'veeryy',
+      'veery',
+      'verrryy',
+      'verrry',
+      'verryy',
+      'verry',
+      'veryy',
+      'very',
+    ],
     t
   );
 });

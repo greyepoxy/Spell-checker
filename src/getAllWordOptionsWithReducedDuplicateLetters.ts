@@ -8,15 +8,13 @@ export function getAllWordOptionsWithReducedDuplicateLetters(
   wordToCheck: string,
   indexToStartAt: number = 0
 ): string[] {
-  const wordOptionsToCheck = [wordToCheck];
-
   const duplicateLetterStartAndEndIndex = findNextDuplicateLetters(
     wordToCheck,
     indexToStartAt
   );
 
   if (duplicateLetterStartAndEndIndex === null) {
-    return wordOptionsToCheck;
+    return [wordToCheck];
   }
 
   const [
@@ -27,15 +25,11 @@ export function getAllWordOptionsWithReducedDuplicateLetters(
   const countOfDuplicateLetters =
     indexOfLastDuplicateLetter - indexOfFirstDuplicateLetter + 1;
 
-  const additionalWordOptions = getAdditionalWordOptionsWithLessDuplicateLettersToCheck(
+  return getAdditionalWordOptionsWithLessDuplicateLettersToCheck(
     wordToCheck,
     indexOfFirstDuplicateLetter,
     countOfDuplicateLetters
   );
-
-  wordOptionsToCheck.push(...additionalWordOptions);
-
-  return wordOptionsToCheck;
 }
 
 function getAdditionalWordOptionsWithLessDuplicateLettersToCheck(
@@ -43,7 +37,7 @@ function getAdditionalWordOptionsWithLessDuplicateLettersToCheck(
   indexOfFirstDuplicateLetter: number,
   originalCountOfDuplicateLetters: number
 ): string[] {
-  return createSequence(originalCountOfDuplicateLetters - 1)
+  return createSequence(originalCountOfDuplicateLetters)
     .map(count => count + 1)
     .reverse()
     .map(newNumberOfDuplicateCharacters => {
